@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "concurrently -n web,server -c magenta,cyan \"next dev\" \"npm run dev --workspace server\"",
     "build": "next build && npm run build --workspace server",
+    "build:next": "next build",
     "start": "concurrently -n web,server -c magenta,cyan \"next start\" \"npm run start --workspace server\"",
     "lint": "next lint",
     "db:migrate": "prisma migrate dev",
