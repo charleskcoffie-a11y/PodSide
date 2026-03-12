@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum RoomStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum SessionStatus {
+  CONNECTED
+  RECORDING
+  UPLOADING
+  COMPLETED
+  FAILED
+}
+
+enum ParticipantRole {
+  HOST
+  GUEST
+}
+
+enum ParticipantStatus {
+  CONNECTED
+  DISCONNECTED
+}
+
+enum TrackStatus {
+  RECORDING
+  UPLOADING
+  COMPLETED
+  FAILED
+}
+
+enum ChunkUploadState {
+  UPLOADED
+  REPLACED
+  FAILED
+}
+
+model Room {
+  id           String        @id @default(cuid())
+  code         String        @unique
+  status       RoomStatus    @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  sessions     Session[]
+  participants Participant[]
+  tracks       Track[]
+}
+
+model Session {
+  id          String        @id @default(cuid())
+  roomId      String
+  room        Room          @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  status      SessionStatus @default(CONNECTED)
+  startedAt   DateTime?
+  endedAt     DateTime?
+  manifestPath String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  participants Participant[]
+  tracks      Track[]
+
+  @@index([roomId])
+}
+
+model Participant {
+  id         String            @id @default(cuid())
+  externalId String
+  roomId     String
+  sessionId  String?
+  room       Room              @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  session    Session?          @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  name       String
+  role       ParticipantRole
+  status     ParticipantStatus @default(CONNECTED)
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  tracks     Track[]
+
+  @@index([roomId])
+  @@index([sessionId])
+  @@unique([externalId, roomId, sessionId])
+}
+
+model Track {
+  id             String      @id @default(cuid())
+  sessionId      String
+  participantId  String
+  roomId         String
+  session        Session     @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  participant    Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  room           Room        @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  trackType      String
+  mimeType       String
+  status         TrackStatus @default(RECORDING)
+  uploadCompleted Boolean    @default(false)
+  lastSequence   Int         @default(0)
+  finalFilePath  String?
+  startedAt      DateTime    @default(now())
+  endedAt        DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  chunks         Chunk[]
+
+  @@index([roomId])
+  @@unique([sessionId, participantId, trackType])
+}
+
+model Chunk {
+  id           String           @id @default(cuid())
+  trackId      String
+  track        Track            @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  sequenceNumber Int
+  timestampMs  String
+  sizeBytes    Int
+  mimeType     String
+  filePath     String
+  uploadState  ChunkUploadState @default(UPLOADED)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  @@index([trackId])
+  @@unique([trackId, sequenceNumber])
+}

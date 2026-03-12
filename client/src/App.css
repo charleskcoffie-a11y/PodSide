@@ -1,0 +1,106 @@
+.app {
+  width: min(1200px, 100% - 2rem);
+  margin: 1rem auto 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.panel {
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 1rem;
+}
+
+.controls h1 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+}
+
+.field-row {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-bottom: 0.75rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+
+input {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.95rem;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 0.55rem 0.8rem;
+  background: #111827;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.status {
+  margin: 0.35rem 0;
+  color: #334155;
+}
+
+.link {
+  display: inline-flex;
+  margin: 0.25rem 0.5rem 0.25rem 0;
+  color: #2563eb;
+}
+
+.video-section {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.video-card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #0f172a;
+}
+
+@media (prefers-color-scheme: dark) {
+  .panel {
+    background: #111827;
+    border-color: #374151;
+  }
+
+  .status {
+    color: #cbd5e1;
+  }
+
+  input {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-color: #334155;
+  }
+}

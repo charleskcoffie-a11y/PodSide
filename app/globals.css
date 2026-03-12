@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply min-h-screen bg-slate-950 bg-hero-radial text-slate-100 antialiased;
+}
+
+a {
+  @apply text-brand-300 hover:text-brand-200;
+}
+
+input {
+  @apply w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-brand-400;
+}
+
+label {
+  @apply space-y-2 text-sm font-medium text-slate-200;
+}

@@ -1,0 +1,40 @@
+{
+  "name": "podside",
+  "private": true,
+  "version": "0.2.0",
+  "workspaces": [
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,server -c magenta,cyan \"next dev\" \"npm run dev --workspace server\"",
+    "build": "next build && npm run build --workspace server",
+    "start": "concurrently -n web,server -c magenta,cyan \"next start\" \"npm run start --workspace server\"",
+    "lint": "next lint",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio",
+    "db:seed": "tsx prisma/seed.ts",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "next": "^15.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.5",
+    "autoprefixer": "^10.4.21",
+    "concurrently": "^9.2.1",
+    "postcss": "^8.5.3",
+    "prisma": "^6.8.2",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.20.6",
+    "typescript": "^5.8.3"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}
