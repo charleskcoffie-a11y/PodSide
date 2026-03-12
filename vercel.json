@@ -2,11 +2,5 @@
   "framework": "nextjs",
   "buildCommand": "npm run build:next",
   "installCommand": "npm install",
-  "outputDirectory": ".next",
-  "env": {
-    "NEXT_PUBLIC_SERVER_URL": {
-      "description": "URL of the deployed Railway server (e.g. https://podside-server.up.railway.app)",
-      "required": true
-    }
-  }
+  "outputDirectory": ".next"
 }
